@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject[] targetPrefabs;
     private GameManager gameManager;
+    public GameObject[] targetPrefabs;
 
     public float borderPosition = 10.0f;
     private int direction;
@@ -13,17 +13,28 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float startDelay = 1.0f;
     [SerializeField] private float spawnInterval = 2.0f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-        InvokeRepeating("SpawnRandomTarget", startDelay, spawnInterval);
     }
 
-    private void Update()
+    public void StartSpawn()
     {
+        InvokeRepeating("SpawnRandomTarget", startDelay, spawnInterval / gameManager.difficultyRate);
+    }
 
+    public void StopSpawn()
+    {
+        CancelInvoke("SpawnRandomTarget");
+    }
+
+    private void SpawnRandomTarget()
+    {
+        int index = Random.Range(0, targetPrefabs.Length);
+        targetPrefabs[index].transform.localEulerAngles = new Vector3(0, 0, -90);
+
+        GameObject obj = (GameObject)Instantiate(targetPrefabs[index], RandomStart(), targetPrefabs[index].transform.rotation);
+        obj.transform.SetParent(this.transform); // ставим как дочерний объект к Spawn Manager
     }
 
     public Vector2 RandomStart()
@@ -39,37 +50,21 @@ public class SpawnManager : MonoBehaviour
 
             case 0:
                 return randomPosition = new Vector2(borderPosition, 0);
-                Debug.Log("Выбрано направление " + direction + "по координатам: [" + randomPosition.x + "," + randomPosition.y + "];");
-                break;
+                //break;
             case 1:
                 return randomPosition = new Vector2(-borderPosition, 0);
-                Debug.Log("Выбрано направление " + direction + "по координатам: [" + randomPosition.x + "," + randomPosition.y + "];");
-                break;
+                //break;
             case 2:
                 return randomPosition = new Vector2(0, borderPosition);
-                Debug.Log("Выбрано направление " + direction + "по координатам: [" + randomPosition.x + "," + randomPosition.y + "];");
-                break;
+                //break;
             case 3:
                 return randomPosition = new Vector2(0, -borderPosition);
-                Debug.Log("Выбрано направление " + direction + "по координатам: [" + randomPosition.x + "," + randomPosition.y + "];");
-                break;
+                //break;
             default:
                 Debug.Log("Выбран DEFAULT");
                 return randomPosition = new Vector2(borderPosition, borderPosition);
-                Debug.Log("Выбрано направление " + direction + "по координатам: [" + randomPosition.x + "," + randomPosition.y + "];");
-                break;
+                //break;
         }
-    }
-
-    private void SpawnRandomTarget()
-    {
-        int index = Random.Range(0, targetPrefabs.Length);
-        targetPrefabs[index].transform.localEulerAngles = new Vector3(0, 0, -90);
-
-        Instantiate(targetPrefabs[index],
-            RandomStart(),
-            targetPrefabs[index].transform.rotation);
-
-        //gameManager.Counter(); //подсчитываем
+        //Debug.Log("Выбрано направление " + direction + "по координатам: [" + randomPosition.x + "," + randomPosition.y + "];");
     }
 }
