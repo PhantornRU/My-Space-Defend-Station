@@ -104,9 +104,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
-  speed: 0.3
-  horizontalSpeed: 1
-  timeDifferentMoved: 2
+  speed: 0.1
+  horizontalSpeed: 0.25
+  timeDifferentMoved: 10
   scoreForDestroy: 3
   isDifferentHorizontalMoved: 1
   guns:
@@ -119,6 +119,8 @@ MonoBehaviour:
   timeToShoot: 1
   horizontalSpeedGun: 30
   timeDifferentMovedGun: 4
+  isShootTogether: 0
+  shootDelay: 0.5
   numGun: 0
 --- !u!61 &3531712137416794790
 BoxCollider2D:

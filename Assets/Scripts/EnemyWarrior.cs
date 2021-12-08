@@ -11,6 +11,8 @@ public class EnemyWarrior : Enemy
     public int timeToShoot = 1;
     public float horizontalSpeedGun = 30.0f;
     public float timeDifferentMovedGun = 4;
+    public bool isShootTogether = true;
+    public float shootDelay = 0.5f;
     //public EnemyGun[] guns;
 
     [SerializeField] int numGun = 0;
@@ -33,14 +35,50 @@ public class EnemyWarrior : Enemy
 
         HorizontalMove();
 
-        foreach (EnemyGun gun in guns)
-        {
-            if (gun.canShoot)
+        if (isShootTogether)
+        {   //стрельба одновременно
+            foreach (EnemyGun gun in guns)
             {
-                gun.gunShoot();
+                if (gun.canShoot)
+                {
+                    gun.gunShoot();
+                }
+            }
+        }
+        else
+        {   //стрельба очередью
+            if (canLineShoot)
+            {
+                StartCoroutine(lineShoot());
             }
         }
     }
-    
 
+    private bool canLineShoot = true;
+    private float timeSaved;
+
+    IEnumerator lineShoot() //цикл вращение в разные стороны в заданный таймер
+    {
+        canLineShoot = false;
+
+        for (int i = numGun; i > 0; i--)
+        {
+            //Debug.Log("[" + Time.time + "] Запущен таймер:" + intTimeDebug);
+
+            while (Time.time < (timeDifferentMoved / i ) + timeSaved)
+            {
+                if (guns[i - 1].canShoot)
+                {
+                    Debug.Log("Высстрел #" + i);
+                    guns[i - 1].gunShoot();
+                }
+
+                yield return null;
+            }
+        }
+
+        timeSaved = Time.time;
+
+        canLineShoot = true;
+    }
 }

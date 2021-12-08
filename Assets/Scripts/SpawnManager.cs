@@ -49,10 +49,10 @@ public class SpawnManager : MonoBehaviour
         {
 
             case 0:
-                return randomPosition = new Vector2(borderPosition, 0);
+                return randomPosition = new Vector2(borderPosition * 2, 0);
                 //break;
             case 1:
-                return randomPosition = new Vector2(-borderPosition, 0);
+                return randomPosition = new Vector2(-borderPosition * 2, 0);
                 //break;
             case 2:
                 return randomPosition = new Vector2(0, borderPosition);

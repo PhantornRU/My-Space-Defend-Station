@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProjectileScript : MonoBehaviour
 {
     public float speed = 2.0f;
-    private int border = 10;
+    private int border = 25;
     public bool isEnemy;
 
     // Update is called once per frame
@@ -22,7 +22,7 @@ public class ProjectileScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.CompareTag("Projectile"))
+        if (collision.gameObject.CompareTag("Projectile") || collision.gameObject.CompareTag("ProjectileEnemy"))
         {
             collision.gameObject.SetActive(false);
             gameObject.SetActive(false);
