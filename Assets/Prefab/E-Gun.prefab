@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3531712137416794811}
   - component: {fileID: 3531712137416794810}
-  - component: {fileID: 1641899644771965989}
   - component: {fileID: 3531712137416794790}
   - component: {fileID: 3531712137416794789}
+  - component: {fileID: 4785638185480947350}
   m_Layer: 0
-  m_Name: EnemyWarrior
+  m_Name: E-Gun
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,11 +29,11 @@ Transform:
   m_GameObject: {fileID: 3531712137416794809}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -0.5, y: 0.04, z: 0}
-  m_LocalScale: {x: 0.55981, y: 1.0150696, z: 1}
+  m_LocalScale: {x: 0.83331996, y: 0.19765998, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!212 &3531712137416794810
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 655814245ff111045b8af1f019f8f08a, type: 2}
+  - {fileID: 2100000, guid: 0070a2e9f087d424c81855a4b2d5371e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,28 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1641899644771965989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3531712137416794809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4d1213bc87880428923d323f5f256e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 2
-  speed: 0.3
-  horizontalSpeed: 1
-  timeDifferentMoved: 2
-  scoreForDestroy: 3
-  isDifferentHorizontalMoved: 1
-  isShootTwice: 0
-  canShoot: 1
-  timeToShoot: 3
-  projectilePrefab: {fileID: 738009808597235306, guid: a7b49b22e0a6de04d9b7fd8262d48874, type: 3}
 --- !u!61 &3531712137416794790
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -114,7 +92,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3531712137416794809}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -154,3 +132,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4785638185480947350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3531712137416794809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a52177a0d29638e4db6f538e8465dd32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canShoot: 1
+  amountToShoot: 1
+  typeRotate: 0
+  projectilePrefab: {fileID: 738009808597235306, guid: a7b49b22e0a6de04d9b7fd8262d48874, type: 3}
+  timeToShoot: 0

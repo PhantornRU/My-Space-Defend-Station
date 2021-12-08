@@ -4,68 +4,43 @@ using UnityEngine;
 
 public class EnemyWarrior : Enemy
 {
-    public bool isShootTwice = false;
-    [SerializeField] private bool canShoot = true;
+    //public bool isShootTwice = false;
 
+    public EnemyGun[] guns;
+
+    public int timeToShoot = 1;
+    public float horizontalSpeedGun = 30.0f;
+    public float timeDifferentMovedGun = 4;
+    //public EnemyGun[] guns;
+
+    [SerializeField] int numGun = 0;
+
+    private void Awake()
+    {
+        foreach (EnemyGun gun in guns)
+        {
+            //gun.transform.right = transform.right;
+            gun.timeToShoot = timeToShoot;
+            gun.horizontalSpeed = horizontalSpeedGun;
+            gun.timeDifferentMoved = timeDifferentMovedGun;
+            numGun++;
+        }
+    }
+    
     void Update()
     {
         RotateToPlayer();
 
         HorizontalMove();
 
-        if (canShoot)
+        foreach (EnemyGun gun in guns)
         {
-            canShoot = false;
-            if (!isShootTwice)
+            if (gun.canShoot)
             {
-                StartCoroutine(ShootOne());
-            }
-            else
-            {
-                StartCoroutine(ShootTwice());
+                gun.gunShoot();
             }
         }
     }
+    
 
-    public float timeToShoot;
-
-    public GameObject projectilePrefab;
-
-    IEnumerator ShootOne()
-    {
-        GameObject pooledProjectile = ProjectileEnemyPools.SharedInstance.GetPooledObject();
-        if (pooledProjectile != null)
-        {
-            pooledProjectile.SetActive(true); //активируем
-            pooledProjectile.transform.position = new Vector2(transform.position.x, transform.position.y); //позиционируем   
-            pooledProjectile.transform.right = transform.right; //разворачиваем                                                                                                                       //pooledProjectile.transform.localEulerAngles = gunObject.transform.localEulerAngles;
-        }
-
-        yield return new WaitForSeconds(timeToShoot);
-
-        canShoot = true;
-    }
-
-    IEnumerator ShootTwice()
-    {
-        GameObject pooledProjectile = ProjectileEnemyPools.SharedInstance.GetPooledObject();
-        if (pooledProjectile != null)
-        {
-            pooledProjectile.SetActive(true); //активируем
-            pooledProjectile.transform.right = transform.right; //разворачиваем
-            pooledProjectile.transform.position = new Vector2(transform.position.x - transform.localScale.x, transform.position.y); //позиционируем                                                                                                                          //pooledProjectile.transform.localEulerAngles = gunObject.transform.localEulerAngles;
-        }
-
-        //pooledProjectile = GameManager.SharedInstance.GetPooledObject();
-        //if (pooledProjectile != null)
-        //{
-        //    pooledProjectile.SetActive(true); //активируем
-        //    pooledProjectile.transform.right = transform.right; //разворачиваем
-        //    pooledProjectile.transform.position = new Vector2(transform.position.x, transform.position.y); //позиционируем                                                                                                                          //pooledProjectile.transform.localEulerAngles = gunObject.transform.localEulerAngles;
-        //}
-
-        yield return new WaitForSeconds(timeToShoot);
-
-        canShoot = true;
-    }
 }
