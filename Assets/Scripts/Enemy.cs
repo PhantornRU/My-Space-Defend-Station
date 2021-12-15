@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public float timeDifferentMoved;
 
     public int scoreForDestroy;
+    public int spawnRate0to100;
 
     private GameManager gameManager;
     private PlayerController player;

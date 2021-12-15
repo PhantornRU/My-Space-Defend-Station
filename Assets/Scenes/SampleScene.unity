@@ -503,6 +503,8 @@ MonoBehaviour:
   - {fileID: 3531712137416794809, guid: c288f565733fef946b7d0c24d66e006e, type: 3}
   - {fileID: 3531712137416794809, guid: 5f3aeda0f817b704ea832659bfb42527, type: 3}
   - {fileID: 3531712137416794809, guid: 88a701ae65f2838469780a81c2260a02, type: 3}
+  - {fileID: 3531712137416794809, guid: 67236da5dbcb82d409128371e7cc1dec, type: 3}
+  - {fileID: 3531712137416794809, guid: 931517b53605a674fadda25d17fa4fa7, type: 3}
   borderPosition: 10
   startDelay: 1
   spawnInterval: 5
@@ -837,7 +839,7 @@ GameObject:
   - component: {fileID: 233681309}
   - component: {fileID: 233681308}
   m_Layer: 5
-  m_Name: Button Medium
+  m_Name: ButtonMedium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -970,7 +972,7 @@ GameObject:
   - component: {fileID: 243555784}
   - component: {fileID: 243555783}
   m_Layer: 5
-  m_Name: Button Hard
+  m_Name: ButtonHard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3513,7 +3515,7 @@ GameObject:
   - component: {fileID: 1587010487}
   - component: {fileID: 1587010486}
   m_Layer: 5
-  m_Name: Button Easy
+  m_Name: ButtonEasy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

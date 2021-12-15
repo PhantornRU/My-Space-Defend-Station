@@ -5,15 +5,22 @@ using UnityEngine;
 public class ProjectileScript : MonoBehaviour
 {
     public float speed = 2.0f;
-    private int border = 25;
     public bool isEnemy;
+
+    private Vector2 border;
+
+    private void Start()
+    {
+        // границы екрана
+        border = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+    }
 
     // Update is called once per frame
     void Update()
     {
         //projectileRb.AddForce(Vector2.right * speed * Time.deltaTime, ForceMode2D.Impulse);
         transform.Translate(speed * Time.deltaTime, 0, 0);   
-        if (Mathf.Abs(transform.position.x) > border || Mathf.Abs(transform.position.y) > border)
+        if (Mathf.Abs(transform.position.x) > border.x || Mathf.Abs(transform.position.y) > border.y)
         {
             gameObject.SetActive(false);
         }

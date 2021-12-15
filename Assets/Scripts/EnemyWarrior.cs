@@ -55,7 +55,7 @@ public class EnemyWarrior : Enemy
     }
 
     private bool canLineShoot = true;
-    private float timeSaved;
+    private float timeGunSaved;
 
     IEnumerator lineShoot() //цикл вращение в разные стороны в заданный таймер
     {
@@ -65,7 +65,7 @@ public class EnemyWarrior : Enemy
         {
             //Debug.Log("[" + Time.time + "] Запущен таймер:" + intTimeDebug);
 
-            while (Time.time < (timeDifferentMoved / i ) + timeSaved)
+            while (Time.time < (timeDifferentMoved / i ) + timeGunSaved)
             {
                 if (guns[i - 1].canShoot)
                 {
@@ -77,7 +77,7 @@ public class EnemyWarrior : Enemy
             }
         }
 
-        timeSaved = Time.time;
+        timeGunSaved = Time.time;
 
         canLineShoot = true;
     }
