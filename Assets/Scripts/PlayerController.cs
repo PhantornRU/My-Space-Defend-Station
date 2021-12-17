@@ -13,15 +13,29 @@ public class PlayerController : MonoBehaviour
     public GameObject gunObject;
     public GameObject projectilePrefab;
 
-    private float border = 1.5f;
+    private Vector2 border;
 
     private GameManager gameManager;
 
     public bool invulnerability = false;
 
+    private ContactPointsController contactPointUp;
+    private ContactPointsController contactPointDown;
+    private ContactPointsController contactPointRight;
+    private ContactPointsController contactPointLeft;
+
     private void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        // границы екрана
+        border = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+
+        //точки соприкосновения
+        contactPointUp = GameObject.Find("ContactPointUp").GetComponent<ContactPointsController>();
+        contactPointDown = GameObject.Find("ContactPointDown").GetComponent<ContactPointsController>();
+        contactPointRight = GameObject.Find("ContactPointRight").GetComponent<ContactPointsController>();
+        contactPointLeft = GameObject.Find("ContactPointLeft").GetComponent<ContactPointsController>();
     }
 
     // Update is called once per frame
@@ -30,13 +44,7 @@ public class PlayerController : MonoBehaviour
         if (gameManager.isGameActive)
         {
             //передвижение
-            float verticalInput = Input.GetAxis("Vertical") * Time.deltaTime * speed;
-            float horizontalInput = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
-
-            if (Mathf.Abs(transform.position.x + horizontalInput) < border && Mathf.Abs(transform.position.y + verticalInput) < border)
-            {
-                transform.Translate(horizontalInput, verticalInput, 0);
-            }
+            MovePlayer();
 
             //управление оружием
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -64,20 +72,30 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name + " столкнулся с " + name);
+        //Debug.Log(collision.gameObject.name + " тригернулся с " + name);
 
         if (collision.gameObject.CompareTag("ProjectileEnemy"))
         {
-            Debug.Log(name + " получил урон, текущее здоровье: " + health + " хп.");
+            //Debug.Log(name + " получил урон, текущее здоровье: " + health + " хп.");
             if (!invulnerability) health -= 0.25f;
             gameManager.UpdateSliderHealth();
 
             collision.gameObject.SetActive(false);
         }
 
+        if (health <= 0 && !invulnerability)
+        {
+            gameManager.GameOver();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log(collision.gameObject.name + " столкнулся с " + name);
+
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log(name + " получил урон от столкновения с врагом, текущее здоровье: " + health + " хп.");
+            //Debug.Log(name + " получил урон от столкновения с врагом, текущее здоровье: " + health + " хп.");
             if (!invulnerability) health -= 0.50f;
             gameManager.UpdateSliderHealth();
             Destroy(collision.gameObject);
@@ -88,4 +106,35 @@ public class PlayerController : MonoBehaviour
             gameManager.GameOver();
         }
     }
+
+    private float verticalInput, horizontalInput;
+
+    private void MovePlayer()
+    {
+        //нажатие на клавиши WASD
+        verticalInput = Input.GetAxis("Vertical") * Time.deltaTime * speed;
+        horizontalInput = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
+
+        //проверяем не выходим ли мы за рамки экрана и можем ли двигаться в одну из сторон
+        if (Mathf.Abs(transform.position.x + horizontalInput) < border.x && Mathf.Abs(transform.position.y + verticalInput) < border.y)
+        {
+            if (contactPointUp.isHaveGround && verticalInput > 0)
+            {
+                transform.Translate(0, verticalInput, 0);
+            }
+            if (contactPointDown.isHaveGround && verticalInput < 0)
+            {
+                transform.Translate(0, verticalInput, 0);
+            }
+            if (contactPointRight.isHaveGround && horizontalInput > 0)
+            {
+                transform.Translate(horizontalInput, 0, 0);
+            }
+            if (contactPointLeft.isHaveGround && horizontalInput < 0)
+            {
+                transform.Translate(horizontalInput, 0, 0);
+            }
+        }
+    }
+
 }

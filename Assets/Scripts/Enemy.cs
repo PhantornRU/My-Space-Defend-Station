@@ -95,26 +95,6 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        pushOffInTrigger(collision);
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        pushOffInTrigger(collision);
-    }
-
-    void pushOffInTrigger(Collider2D collision)
-    {   //отталкиваем друг от друга
-        if (collision.gameObject != this.gameObject && collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log(name + " оттолкнулся от " + collision.name);
-            Vector2 awayFromTear = (collision.gameObject.transform.position - transform.position).normalized;
-            transform.Translate(speed * awayFromTear.x * Time.deltaTime, horizontalSpeed * awayFromTear.y * Time.deltaTime, 0);
-        }
-    }
-
     private float scaleChange = 0.01f;
     private float scaleChangeBorder = 0.25f;
 
@@ -174,4 +154,19 @@ public class Enemy : MonoBehaviour
 
         checkDifferentMoved = false;
     }
+
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    pushOffInTrigger(collision);
+    //}
+
+    //void pushOffInTrigger(Collider2D collision)
+    //{   //отталкиваем друг от друга
+    //    if (collision.gameObject != this.gameObject && collision.gameObject.CompareTag("Enemy"))
+    //    {
+    //        Debug.Log(name + " оттолкнулся от " + collision.name);
+    //        Vector2 awayFromTear = (collision.gameObject.transform.position - transform.position).normalized;
+    //        transform.Translate(speed * awayFromTear.x * Time.deltaTime, horizontalSpeed * awayFromTear.y * Time.deltaTime, 0);
+    //    }
+    //}
 }

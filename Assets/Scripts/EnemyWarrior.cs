@@ -69,7 +69,7 @@ public class EnemyWarrior : Enemy
             {
                 if (guns[i - 1].canShoot)
                 {
-                    Debug.Log("Высстрел #" + i);
+                    //Debug.Log("Высстрел #" + i);
                     guns[i - 1].gunShoot();
                 }
 
