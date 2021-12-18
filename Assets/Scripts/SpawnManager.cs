@@ -13,7 +13,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float startDelay = 1.0f;
     [SerializeField] private float spawnInterval = 2.0f;
 
-
+    public bool withChance = false;
 
     private void Start()
     {
@@ -26,12 +26,19 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
-        //timerTest(0.5f);
+        //timerTest(0.25f);
     }
 
     public void StartSpawn()
     {
-        InvokeRepeating("SpawnRandomTarget", startDelay, spawnInterval / gameManager.difficultyRate);
+        if (withChance)
+        {
+            InvokeRepeating("SpawnRandomTargetWithChance", startDelay, spawnInterval / gameManager.difficultyRate);
+        }
+        else
+        {
+            InvokeRepeating("SpawnRandomTarget", startDelay, spawnInterval / gameManager.difficultyRate);
+        }
     }
 
     public void StopSpawn()
@@ -51,28 +58,37 @@ public class SpawnManager : MonoBehaviour
         }
 
         int chance = Random.Range(0, 100) + 1;
+        //Debug.Log("chance = " + chance);
 
         for (int index = 0; index < chances.Length; index++)
         {
             var ch = chances[index];
+            //Debug.Log("Значение = " + ch);
             if (chance <= ch)
             {
+                //Debug.Log("Индекс [" + index + "], ch = " + ch + ", chance = " + chance);
                 indexCheck = index;
+                //return index;
             }
         }
 
-        if (indexCheck > 0)
-        {
-            return indexCheck;
-        }
-        else
-        {
-            return 0;
-        }
+        return indexCheck;
     }
 
     private void SpawnRandomTarget()
-    {
+    {   //спавн рандомно
+        int index = Random.Range(0, targetPrefabs.Length);
+
+        targetPrefabs[index].transform.localEulerAngles = new Vector3(0, 0, -90);
+
+        GameObject obj = (GameObject)Instantiate(targetPrefabs[index], RandomStart(), targetPrefabs[index].transform.rotation);
+        obj.transform.SetParent(this.transform); // ставим как дочерний объект к Spawn Manager
+
+        Debug.Log("Спавн " + obj.name + " [" + Mathf.Round(obj.transform.position.x) + ';' + Mathf.Round(obj.transform.position.y) + "]; ");
+    }
+
+    private void SpawnRandomTargetWithChance()
+    {   //спавн в соответствии с шансом
         int index = GetChanceIndex();
 
         targetPrefabs[index].transform.localEulerAngles = new Vector3(0, 0, -90);
@@ -122,8 +138,8 @@ public class SpawnManager : MonoBehaviour
         if (timeLeftTest < 0)
         {
             //тестовое значение
-            int testIndex = GetChanceIndex();
-            Debug.Log("Значение = " + testIndex);
+            float testIndex = GetChanceIndex();
+            Debug.Log("Значение теста шанса = " + testIndex);
 
             //сбрасываем
             timeLeftTest = timeSecondsTest;

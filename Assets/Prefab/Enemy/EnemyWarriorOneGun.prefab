@@ -103,7 +103,7 @@ MonoBehaviour:
   horizontalSpeed: 0.4
   timeDifferentMoved: 10
   scoreForDestroy: 3
-  spawnRate0to100: 25
+  spawnRate0to100: 35
   isDifferentHorizontalMoved: 1
   guns:
   - {fileID: 4183644960398119908}

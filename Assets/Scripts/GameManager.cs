@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,6 +24,8 @@ public class GameManager : MonoBehaviour
     public float difficultyRate = 1.0f;
 
     public float healthPlayer;
+
+    private string stringDifficulty = "[M]";
 
     private void Start()
     {
@@ -54,24 +57,51 @@ public class GameManager : MonoBehaviour
 
     public void difficultyEasy()
     {
-        difficultyRate = 0.75f;
+        difficultyRate = 1.0f;
         GameObject.Find("ButtonEasy").GetComponent<Button>().interactable = false;
         GameObject.Find("ButtonMedium").GetComponent<Button>().interactable = true;
         GameObject.Find("ButtonHard").GetComponent<Button>().interactable = true;
+        GameObject.Find("ButtonNightmare").GetComponent<Button>().interactable = true;
+
+        stringDifficulty = "[E]";
+
+        spawnManager.withChance = true;
     }
     public void difficultyMedium()
     {
-        difficultyRate = 1.0f;
+        difficultyRate = 1.5f;
         GameObject.Find("ButtonEasy").GetComponent<Button>().interactable = true;
         GameObject.Find("ButtonMedium").GetComponent<Button>().interactable = false;
         GameObject.Find("ButtonHard").GetComponent<Button>().interactable = true;
+        GameObject.Find("ButtonNightmare").GetComponent<Button>().interactable = true;
+
+        stringDifficulty = "[M]";
+
+        spawnManager.withChance = true;
     }
     public void difficultyHard()
     {
-        difficultyRate = 2.0f;
+        difficultyRate = 2.5f;
         GameObject.Find("ButtonEasy").GetComponent<Button>().interactable = true;
         GameObject.Find("ButtonMedium").GetComponent<Button>().interactable = true;
         GameObject.Find("ButtonHard").GetComponent<Button>().interactable = false;
+        GameObject.Find("ButtonNightmare").GetComponent<Button>().interactable = true;
+
+        stringDifficulty = "[H]";
+
+        spawnManager.withChance = false;
+    }
+    public void difficultyNightmare()
+    {
+        difficultyRate = 4.0f;
+        GameObject.Find("ButtonEasy").GetComponent<Button>().interactable = true;
+        GameObject.Find("ButtonMedium").GetComponent<Button>().interactable = true;
+        GameObject.Find("ButtonHard").GetComponent<Button>().interactable = true;
+        GameObject.Find("ButtonNightmare").GetComponent<Button>().interactable = false;
+
+        stringDifficulty = "[N]";
+
+        spawnManager.withChance = false;
     }
 
     public void StartGame()
@@ -133,8 +163,8 @@ public class GameManager : MonoBehaviour
 
     public void UpdateScore(int scoreToAdd)
     {
-        score += scoreToAdd;
-        scoreText.text = "Score: " + score;
+        score += Convert.ToInt32(scoreToAdd * difficultyRate);
+        scoreText.text = stringDifficulty + " Score: " + score;
     }
 
     private void ClearScene()

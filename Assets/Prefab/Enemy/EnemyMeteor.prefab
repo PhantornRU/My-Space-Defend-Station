@@ -98,12 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd66c3f3d4932284c9cdea9340353953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 2
   speed: 2
   horizontalSpeed: 1
   timeDifferentMoved: 0
   scoreForDestroy: 1
-  spawnRate0to100: 50
+  spawnRate0to100: 40
   isDifferentHorizontalMoved: 0
 --- !u!61 &3531712137416794790
 BoxCollider2D:
