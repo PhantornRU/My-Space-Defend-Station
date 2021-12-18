@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     public void difficultyEasy()
     {
-        difficultyRate = 0.5f;
+        difficultyRate = 0.75f;
         GameObject.Find("ButtonEasy").GetComponent<Button>().interactable = false;
         GameObject.Find("ButtonMedium").GetComponent<Button>().interactable = true;
         GameObject.Find("ButtonHard").GetComponent<Button>().interactable = true;
@@ -156,5 +156,10 @@ public class GameManager : MonoBehaviour
         {
             objectAr.SetActive(false);
         }
+        //arrayOfObjects = GameObject.FindGameObjectsWithTag("Defense");
+        //foreach (GameObject objectAr in arrayOfObjects)
+        //{
+        //    objectAr.SetActive(false);
+        //}
     }
 }

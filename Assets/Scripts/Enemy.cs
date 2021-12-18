@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.1f); //ставим на Z уровень
 
         scaleX = transform.localScale.x;
-        scaleY = transform.localScale.x;
+        scaleY = transform.localScale.y;
     }
 
     private bool checkDifferentMoved = false;
@@ -75,30 +75,46 @@ public class Enemy : MonoBehaviour
         //Debug.Log(collision.gameObject.name + " столкнулся с " + name);
         if (collision.gameObject.CompareTag("Projectile"))
         {
-            health -= player.damage;
-
-            StartCoroutine(TakeDamage());
-
-            Debug.Log(name + " получил " + player.damage + " урона, текущее здоровье: " + health);
-
-            if (health <= 0)
-            {
-                gameManager.UpdateScore(scoreForDestroy);
-
-                Debug.Log(name + " уничтожен ");
-
-                Destroy(gameObject);
-            }
+            TakeDamage(player.damage);
 
             collision.gameObject.SetActive(false);
         }
 
+        if (collision.gameObject.CompareTag("DefenseBarrier"))
+        {
+
+            TakeDamage(1);
+        }
+    }
+
+    private void TakeDamage(float damage)
+    {
+        //Debug.Log(name + " получил " + player.damage + " урона, текущее здоровье: " + health);
+
+        health -= damage;
+
+        if (health <= 0)
+        {
+            gameManager.UpdateScore(scoreForDestroy);
+
+            Debug.Log(name + " уничтожен ");
+
+            Destroy(gameObject);
+        }
+
+        //перезапускаем coroutine's
+        StopAllCoroutines(); //избавляемся от всех coroutine возникающих при множестве столкновений
+        StartCoroutine(ChangeSizeForDamage());
+
+        //возобновляем движение и coroutine движения
+        checkDifferentMoved = false;
+        HorizontalMove();
     }
 
     private float scaleChange = 0.01f;
     private float scaleChangeBorder = 0.25f;
 
-    IEnumerator TakeDamage()
+    IEnumerator ChangeSizeForDamage()
     {
         while (transform.localScale.x > scaleX - scaleChangeBorder)
         {   //уменьшаем

@@ -8,6 +8,8 @@ TagManager:
   - ProjectileEnemy
   - Enemy
   - Ground
+  - Defense
+  - DefenseBarrier
   layers:
   - Default
   - TransparentFX

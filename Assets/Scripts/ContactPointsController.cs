@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ContactPointsController : MonoBehaviour
 {
-    public bool isHaveGround = true;
-    private int countGrounds = 0;
+    public bool isHaveGround = true; //имеется ли хотя бы одна поверхность
+    private int countGrounds = 0; //счет имеющейся под триггером поверхности
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -14,7 +14,7 @@ public class ContactPointsController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             countGrounds++;
-            Debug.Log(name + ": Прибавлено CountGrounds = " + countGrounds);
+            //Debug.Log(name + ": Прибавлено CountGrounds = " + countGrounds);
 
             isHaveGround = true;
         }
@@ -27,7 +27,7 @@ public class ContactPointsController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             countGrounds--;
-            Debug.Log(name + ": Вычтено CountGrounds = " + countGrounds);
+            //Debug.Log(name + ": Вычтено CountGrounds = " + countGrounds);
 
             if (countGrounds == 0)
             {

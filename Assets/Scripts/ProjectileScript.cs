@@ -5,7 +5,7 @@ using UnityEngine;
 public class ProjectileScript : MonoBehaviour
 {
     public float speed = 2.0f;
-    public bool isEnemy;
+    //public bool isEnemy;
 
     private Vector2 border;
 

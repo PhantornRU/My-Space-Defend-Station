@@ -73,14 +73,14 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnRandomTarget()
     {
-        //int index = Random.Range(0, targetPrefabs.Length);
         int index = GetChanceIndex();
-        Debug.Log("Значение = " + index);
 
         targetPrefabs[index].transform.localEulerAngles = new Vector3(0, 0, -90);
 
         GameObject obj = (GameObject)Instantiate(targetPrefabs[index], RandomStart(), targetPrefabs[index].transform.rotation);
         obj.transform.SetParent(this.transform); // ставим как дочерний объект к Spawn Manager
+
+        Debug.Log("Спавн " + obj.name + " [" + Mathf.Round(obj.transform.position.x) + ';' + Mathf.Round(obj.transform.position.y) + "]; ");
     }
 
     public Vector2 RandomStart()

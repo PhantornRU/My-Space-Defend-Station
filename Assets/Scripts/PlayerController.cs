@@ -7,8 +7,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float health = 5.0f;
-    public float speed = 5.0f;
-    public int damage = 1;
+    public float speed = 7.0f;
+    public int damage = 1; //не работающее свойство
+    public float timeToShoot = 0.25f;
 
     public GameObject gunObject;
     public GameObject projectilePrefab;
@@ -38,6 +39,10 @@ public class PlayerController : MonoBehaviour
         contactPointLeft = GameObject.Find("ContactPointLeft").GetComponent<ContactPointsController>();
     }
 
+    public bool canShoot = false;
+
+    private float timeLeft = 0;
+
     // Update is called once per frame
     void Update()
     {
@@ -50,15 +55,21 @@ public class PlayerController : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             gunObject.transform.right = ((Vector3)mousePosition - transform.position) * Time.deltaTime;
 
-            //стрельба, выпуск снарядов
+            //стрельба, выпуск снарядов по нажатию/зажатию левой кнопки мыши
             if (Input.GetMouseButtonDown(0))
             {
-                GameObject pooledProjectile = ProjectilePools.SharedInstance.GetPooledObject();
-                if (pooledProjectile != null)
+                OneShoot();
+                Debug.Log("Пиу");
+            }
+
+            if (Input.GetMouseButton(0))
+            {
+                timeLeft -= Time.deltaTime;
+                if (timeLeft < 0)
                 {
-                    pooledProjectile.SetActive(true); // activate it
-                    pooledProjectile.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.1f); // position it at player
-                    pooledProjectile.transform.localEulerAngles = gunObject.transform.localEulerAngles;
+                    OneShoot();
+                    //сбрасываем
+                    timeLeft = timeToShoot;
                 }
             }
         }
@@ -67,6 +78,20 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             gameManager.PauseGame();
+        }
+    }
+    private void timerTest(float timeSecondsTest)
+    {
+    }
+
+    private void OneShoot()
+    {
+        GameObject pooledProjectile = ProjectilePools.SharedInstance.GetPooledObject();
+        if (pooledProjectile != null)
+        {
+            pooledProjectile.SetActive(true); // activate it
+            pooledProjectile.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.1f); // position it at player
+            pooledProjectile.transform.localEulerAngles = gunObject.transform.localEulerAngles;
         }
     }
 
@@ -134,6 +159,15 @@ public class PlayerController : MonoBehaviour
             {
                 transform.Translate(horizontalInput, 0, 0);
             }
+        }
+
+        if (!contactPointUp.isHaveGround && !contactPointDown.isHaveGround
+            && !contactPointRight.isHaveGround && !contactPointLeft.isHaveGround)
+        {
+            contactPointUp.isHaveGround = true;
+            contactPointDown.isHaveGround = true;
+            contactPointRight.isHaveGround = true;
+            contactPointLeft.isHaveGround = true;
         }
     }
 
